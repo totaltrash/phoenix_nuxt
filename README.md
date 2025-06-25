@@ -1,3 +1,21 @@
+Playing with Phoenix and Nuxt
+=============================
+
+Yeah, I'm doing it again!
+
+Install
+-------
+
+```
+mix phx.new my_app
+
+# install the nuxt client, in the project root
+npm create nuxt client
+# i chose npm. confirmed the client runs with npm run dev
+
+
+```
+
 # MyApp
 
 To start your Phoenix server:
