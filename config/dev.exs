@@ -25,6 +25,7 @@ config :my_app, MyAppWeb.Endpoint,
   debug_errors: true,
   secret_key_base: "UPYlsUsDf6zU3BBeudgDhIcBdeRleOTPGhZGW46IwI1Mv2efOHJnbyMGRW1KNAY8",
   watchers: [
+    npm: ["run", "dev", cd: Path.expand("../client", __DIR__)],
     esbuild: {Esbuild, :install_and_run, [:my_app, ~w(--sourcemap=inline --watch)]},
     tailwind: {Tailwind, :install_and_run, [:my_app, ~w(--watch)]}
   ]

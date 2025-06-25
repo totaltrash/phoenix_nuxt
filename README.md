@@ -9,11 +9,34 @@ Install
 ```
 mix phx.new my_app
 
-# install the nuxt client, in the project root
+```
+
+Install the nuxt client, in the project root
+
+```
 npm create nuxt client
-# i chose npm. confirmed the client runs with npm run dev
+```
 
+I chose npm. Confirmed the client runs with npm run dev
 
+Instead of having the phoenix web server dishing out the nuxt app during dev (like i did when playing with phx_vue)
+i've just set up a watcher in dev.exs and having the nuxt server handle all that. HMR is working in the client, all good.
+When it comes to prod, i'll just need to figure out how to host this all. Something like this should work:
+
+```
+yourdomain.com {
+  root * /path/to/client/.output/public
+  file_server
+
+  handle_path /api/* {
+    reverse_proxy localhost:4000
+  }
+
+  # probably won't need this as will probably hit socket on `/api/socket`?
+  handle_path /socket/* {
+    reverse_proxy localhost:4000
+  }
+}
 ```
 
 # MyApp
