@@ -8,7 +8,6 @@ Install
 
 ```
 mix phx.new my_app
-
 ```
 
 Install the nuxt client, in the project root
@@ -38,6 +37,37 @@ yourdomain.com {
   }
 }
 ```
+
+Starting to play with the socket
+
+```
+mix phx.gen.socket User
+mix phx.gen.channel Room
+
+```
+
+At this point, we can send messages from the client and collect the reply. We can also send messages from the
+server using something like:
+
+```
+MyAppWeb.Endpoint.broadcast("room:lobby", "poke", %{"msg" => "Hello this is a broadcast"})
+```
+
+You can restart the server and the client reconnects automatically, as advertised.
+
+
+
+Todo
+----
+
+Install shadcn or something
+
+Login screen and auth stuff
+
+Install Ash
+
+Play with calling Ash actions from the client through the socket
+
 
 # MyApp
 
