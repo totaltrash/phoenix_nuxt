@@ -1,0 +1,30 @@
+#!/bin/bash
+set -e
+
+#################################################################################
+# Build the backend
+#################################################################################
+
+# Clean up previous build artifacts and container
+rm -rf ./_release/server
+docker rm -f release-builder 2>/dev/null || true
+
+# Build the release image
+docker build -t debian12-app-builder .
+
+# Run the container in the background for optional inspection/debugging later
+docker run -dit --name release-builder debian12-app-builder
+
+# Copy the built release out of the container
+docker cp release-builder:/app/_build/prod/rel ./_release/server
+
+# Optionally inspect the container
+# echo "Inspect the container..."
+# docker exec -it release-builder bash
+
+# Clean up the container
+docker rm -f release-builder
+
+#################################################################################
+# Build the frontend - todo
+#################################################################################

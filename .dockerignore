@@ -1,0 +1,30 @@
+# Elixir build artifacts
+/_build
+/_release
+/deps
+/erl_crash.dump
+
+# Node/NPM artifacts (Phoenix projects)
+/assets/node_modules
+
+# Test and dev-only files
+/test
+/priv/repo/seeds.exs
+
+# Editor/IDE files
+*.swp
+*.swo
+*.bak
+*.tmp
+*.log
+*.DS_Store
+.idea/
+.vscode/
+.elixir_ls
+
+# Git
+.git
+.gitignore
+
+# Nuxt client
+/client
