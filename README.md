@@ -55,6 +55,7 @@ MyAppWeb.Endpoint.broadcast("room:lobby", "poke", %{"msg" => "Hello this is a br
 
 You can restart the server and the client reconnects automatically, as advertised.
 
+Building with a Docker container. See the Dockerfile, .dockerignore and build scripts for more info
 
 
 Todo
