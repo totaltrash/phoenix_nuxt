@@ -1,12 +1,12 @@
-defmodule MyAppWeb.Endpoint do
-  use Phoenix.Endpoint, otp_app: :my_app
+defmodule Web.Endpoint do
+  use Phoenix.Endpoint, otp_app: :app
 
   # The session will be stored in the cookie and signed,
   # this means its contents can be read but not tampered with.
   # Set :encryption_salt if you would also like to encrypt it.
   @session_options [
     store: :cookie,
-    key: "_my_app_key",
+    key: "_app_key",
     signing_salt: "OWm6Rzr5",
     same_site: "Lax"
   ]
@@ -15,7 +15,7 @@ defmodule MyAppWeb.Endpoint do
     websocket: [connect_info: [session: @session_options]],
     longpoll: [connect_info: [session: @session_options]]
 
-  socket "/socket", MyAppWeb.UserSocket,
+  socket "/socket", Web.UserSocket,
     websocket: true,
     longpoll: false
 
@@ -25,9 +25,9 @@ defmodule MyAppWeb.Endpoint do
   # when deploying your static files in production.
   plug Plug.Static,
     at: "/",
-    from: :my_app,
+    from: :app,
     gzip: false,
-    only: MyAppWeb.static_paths()
+    only: Web.static_paths()
 
   # Code reloading can be explicitly enabled under the
   # :code_reloader configuration of your endpoint.
@@ -35,7 +35,7 @@ defmodule MyAppWeb.Endpoint do
     socket "/phoenix/live_reload/socket", Phoenix.LiveReloader.Socket
     plug Phoenix.LiveReloader
     plug Phoenix.CodeReloader
-    plug Phoenix.Ecto.CheckRepoStatus, otp_app: :my_app
+    plug Phoenix.Ecto.CheckRepoStatus, otp_app: :app
   end
 
   plug Phoenix.LiveDashboard.RequestLogger,
@@ -53,5 +53,5 @@ defmodule MyAppWeb.Endpoint do
   plug Plug.MethodOverride
   plug Plug.Head
   plug Plug.Session, @session_options
-  plug MyAppWeb.Router
+  plug Web.Router
 end

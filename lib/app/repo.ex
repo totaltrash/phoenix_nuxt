@@ -1,6 +1,6 @@
-defmodule MyApp.Repo do
+defmodule App.Repo do
   use AshPostgres.Repo,
-    otp_app: :my_app
+    otp_app: :app
 
   @impl true
   def installed_extensions do

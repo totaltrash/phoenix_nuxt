@@ -1,5 +1,5 @@
-defmodule MyAppWeb.PageController do
-  use MyAppWeb, :controller
+defmodule Web.PageController do
+  use Web, :controller
 
   def home(conn, _params) do
     # The home page is often custom made,

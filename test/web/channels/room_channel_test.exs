@@ -1,11 +1,11 @@
-defmodule MyAppWeb.RoomChannelTest do
-  use MyAppWeb.ChannelCase
+defmodule Web.RoomChannelTest do
+  use Web.ChannelCase
 
   setup do
     {:ok, _, socket} =
-      MyAppWeb.UserSocket
+      Web.UserSocket
       |> socket("user_id", %{some: :assign})
-      |> subscribe_and_join(MyAppWeb.RoomChannel, "room:lobby")
+      |> subscribe_and_join(Web.RoomChannel, "room:lobby")
 
     %{socket: socket}
   end

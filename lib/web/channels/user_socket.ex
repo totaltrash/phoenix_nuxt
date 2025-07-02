@@ -1,4 +1,4 @@
-defmodule MyAppWeb.UserSocket do
+defmodule Web.UserSocket do
   use Phoenix.Socket
 
   # A Socket handler
@@ -8,9 +8,9 @@ defmodule MyAppWeb.UserSocket do
 
   ## Channels
   # Uncomment the following line to define a "room:*" topic
-  # pointing to the `MyAppWeb.RoomChannel`:
+  # pointing to the `Web.RoomChannel`:
   #
-  channel "room:*", MyAppWeb.RoomChannel
+  channel "room:*", Web.RoomChannel
   #
   # To create a channel file, use the mix task:
   #
@@ -45,7 +45,7 @@ defmodule MyAppWeb.UserSocket do
   # Would allow you to broadcast a "disconnect" event and terminate
   # all active sockets and channels for a given user:
   #
-  #     Elixir.MyAppWeb.Endpoint.broadcast("user_socket:#{user.id}", "disconnect", %{})
+  #     Elixir.Web.Endpoint.broadcast("user_socket:#{user.id}", "disconnect", %{})
   #
   # Returning `nil` makes this socket anonymous.
   @impl true

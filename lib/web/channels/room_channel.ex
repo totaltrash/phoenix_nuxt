@@ -1,5 +1,5 @@
-defmodule MyAppWeb.RoomChannel do
-  use MyAppWeb, :channel
+defmodule Web.RoomChannel do
+  use Web, :channel
 
   @impl true
   def join("room:lobby", payload, socket) do
