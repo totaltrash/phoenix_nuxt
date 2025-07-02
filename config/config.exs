@@ -58,6 +58,8 @@ config :app, Web.Endpoint,
   pubsub_server: App.PubSub,
   live_view: [signing_salt: "TGDGixoW"]
 
+config :app, ash_domains: [App.Accounts]
+
 # Configures the mailer
 #
 # By default it uses the "Local" adapter which stores the emails
