@@ -18,7 +18,7 @@ config :app, App.Repo,
 config :app, Web.Endpoint,
   http: [ip: {127, 0, 0, 1}, port: 4002],
   secret_key_base: "1ZBSab8T+wf3T3b5AqJAyqaLkNhL0kX6077k7tTNjN9nzcxSe/6JgeDIWmrUkc1h",
-  server: false
+  server: true
 
 # In test we don't send emails
 config :app, App.Mailer, adapter: Swoosh.Adapters.Test
@@ -38,3 +38,7 @@ config :phoenix_live_view,
 
 # Reduce number of rounds during test only
 config :bcrypt_elixir, :log_rounds, 4
+
+# Wallaby
+config :wallaby, driver: Wallaby.Chrome, chromedriver: [headless: true]
+config :app, :sandbox, Ecto.Adapters.SQL.Sandbox

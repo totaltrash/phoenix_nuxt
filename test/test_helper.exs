@@ -1,2 +1,5 @@
 ExUnit.start()
+ExUnit.configure(exclude: [:disabled])
 Ecto.Adapters.SQL.Sandbox.mode(App.Repo, :manual)
+Application.put_env(:wallaby, :base_url, Web.Endpoint.url())
+{:ok, _} = Application.ensure_all_started(:wallaby)

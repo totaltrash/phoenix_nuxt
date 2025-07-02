@@ -1,4 +1,4 @@
-defmodule Web.ChannelCase do
+defmodule Test.ChannelCase do
   @moduledoc """
   This module defines the test case to be used by
   channel tests.
@@ -21,7 +21,7 @@ defmodule Web.ChannelCase do
     quote do
       # Import conveniences for testing with channels
       import Phoenix.ChannelTest
-      import Web.ChannelCase
+      import Test.ChannelCase
 
       # The default endpoint for testing
       @endpoint Web.Endpoint
@@ -29,7 +29,7 @@ defmodule Web.ChannelCase do
   end
 
   setup tags do
-    App.DataCase.setup_sandbox(tags)
+    Test.DataCase.setup_sandbox(tags)
     :ok
   end
 end

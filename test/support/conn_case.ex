@@ -1,4 +1,4 @@
-defmodule Web.ConnCase do
+defmodule Test.ConnCase do
   @moduledoc """
   This module defines the test case to be used by
   tests that require setting up a connection.
@@ -27,12 +27,12 @@ defmodule Web.ConnCase do
       # Import conveniences for testing with connections
       import Plug.Conn
       import Phoenix.ConnTest
-      import Web.ConnCase
+      import Test.ConnCase
     end
   end
 
   setup tags do
-    App.DataCase.setup_sandbox(tags)
+    Test.DataCase.setup_sandbox(tags)
     {:ok, conn: Phoenix.ConnTest.build_conn()}
   end
 end

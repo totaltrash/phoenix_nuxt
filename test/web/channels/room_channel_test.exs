@@ -1,5 +1,5 @@
 defmodule Web.RoomChannelTest do
-  use Web.ChannelCase
+  use Test.ChannelCase
 
   setup do
     {:ok, _, socket} =
