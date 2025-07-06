@@ -38,7 +38,10 @@ yourdomain.com {
 }
 ```
 
-Starting to play with the socket
+Socket
+------
+
+Started to play with the socket comms
 
 ```
 mix phx.gen.socket User
@@ -55,17 +58,39 @@ Web.Endpoint.broadcast("room:lobby", "poke", %{"msg" => "Hello this is a broadca
 
 You can restart the server and the client reconnects automatically, as advertised.
 
+Docker
+------
+
 Building with a Docker container. See the Dockerfile, .dockerignore and build scripts for more info
+
+
+Running the nuxt client in dev and test
+---------------------------------------
+
+Using Wallaby for end to end testing. I had a bit of trouble setting up the starting and closing of the nuxt client. I already had the problem in dev but hadn't really noticed. I haven't been able to programatically close down the client at the end of the test suite, or when killing the iex session.
+
+I've landed on a solution for the test environment:
+
+* Added a nuxt_helper that generates the nuxt client and calling it in test_helper to run at the start of the test suite
+* Added a Plug.Static to the endpoint (test env only) to statically dish out the generated nuxt client
+
+Happy with this as don't need the client to run in nuxt dev mode during tests.
+
+For dev, I tried adding `npm run dev` as a watcher, but the process would hang around after killing iex, and nuxt would assign another port on the next run. I'm currently running the nuxt client in a separate terminal. 
+
+I just need to make sure all the ports line up for both environments. I'm currently (hopefully) setting everything up in nuxt.config.ts and setting a TARGET env var on each call to nuxt generate or nuxt dev.
 
 
 Todo
 ----
 
+Revisit adding a watcher for running the nuxt client in the dev environment. could add a kill before the call to npm run dev in a gen server... maybe?
+
+See if there is a way to conditionally generate the nuxt client during tests - is there a way to see if a build is stale? See https://stackoverflow.com/questions/545387/linux-compute-a-single-hash-for-a-given-folder-contents
+
 Install shadcn or something
 
 Login screen and auth stuff
-
-Install Ash
 
 Play with calling Ash actions from the client through the socket
 

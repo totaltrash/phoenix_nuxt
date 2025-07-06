@@ -40,5 +40,9 @@ config :phoenix_live_view,
 config :bcrypt_elixir, :log_rounds, 4
 
 # Wallaby
-config :wallaby, driver: Wallaby.Chrome, chromedriver: [headless: true]
+config :wallaby,
+  driver: Wallaby.Chrome,
+  chromedriver: [headless: true],
+  js_logger: nil
+
 config :app, :sandbox, Ecto.Adapters.SQL.Sandbox

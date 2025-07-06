@@ -33,6 +33,13 @@ defmodule Web.Endpoint do
     gzip: false,
     only: Web.static_paths()
 
+  # Start the nuxt client in test environment only, sometimes dev when debugging
+  if Mix.env() in [:test] do
+    plug Plug.Static,
+      at: "/client_test",
+      from: "client/.output/wallaby/public/"
+  end
+
   # Code reloading can be explicitly enabled under the
   # :code_reloader configuration of your endpoint.
   if code_reloading? do

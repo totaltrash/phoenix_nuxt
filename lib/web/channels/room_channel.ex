@@ -19,7 +19,7 @@ defmodule Web.RoomChannel do
   end
 
   def handle_in("poke", %{"msg" => msg}, socket) do
-    IO.puts("POKING")
+    # IO.puts("POKING")
     push(socket, "poke", %{msg: "👋 poke: #{msg}"})
     {:noreply, socket}
   end
