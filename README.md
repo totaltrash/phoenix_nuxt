@@ -80,11 +80,11 @@ For dev, I tried adding `npm run dev` as a watcher, but the process would hang a
 
 I just need to make sure all the ports line up for both environments. I'm currently (hopefully) setting everything up in nuxt.config.ts and setting a TARGET env var on each call to nuxt generate or nuxt dev.
 
+UPDATE: the nuxt dev client now runs automatically on starting the Phoenix server. It uses a wrapper (run_wrapper) to handle cleaning up zombie processes - see https://hexdocs.pm/elixir/Port.html#module-zombie-operating-system-processes for more info. The same strategy doesn't work so well in test unfortunately, there is always a process hanging around, so keep the existing strategy for test, ie generate a client and let Phoenix serve it, though i have kept a wip on implementing the wrapper and dev client in nuxt_helper.ex.
+
 
 Todo
 ----
-
-Revisit adding a watcher for running the nuxt client in the dev environment. could add a kill before the call to npm run dev in a gen server... maybe?
 
 See if there is a way to conditionally generate the nuxt client during tests - is there a way to see if a build is stale? See https://stackoverflow.com/questions/545387/linux-compute-a-single-hash-for-a-given-folder-contents
 

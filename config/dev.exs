@@ -23,12 +23,18 @@ config :app, Web.Endpoint,
   check_origin: false,
   code_reloader: true,
   debug_errors: true,
-  secret_key_base: "UPYlsUsDf6zU3BBeudgDhIcBdeRleOTPGhZGW46IwI1Mv2efOHJnbyMGRW1KNAY8"
-
-# watchers: [
-#   esbuild: {Esbuild, :install_and_run, [:app, ~w(--sourcemap=inline --watch)]},
-#   tailwind: {Tailwind, :install_and_run, [:app, ~w(--watch)]}
-# ]
+  secret_key_base: "UPYlsUsDf6zU3BBeudgDhIcBdeRleOTPGhZGW46IwI1Mv2efOHJnbyMGRW1KNAY8",
+  watchers: [
+    bash: [
+      "../run_wrapper",
+      "node_modules/.bin/nuxt",
+      "dev",
+      cd: Path.join(__DIR__, "../client/"),
+      env: [{"TARGET", "dev"}]
+    ]
+    #   esbuild: {Esbuild, :install_and_run, [:app, ~w(--sourcemap=inline --watch)]},
+    #   tailwind: {Tailwind, :install_and_run, [:app, ~w(--watch)]}
+  ]
 
 # ## SSL Support
 #

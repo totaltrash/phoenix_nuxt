@@ -2,40 +2,59 @@
 
 const target = process.env.TARGET || 'dev'
 
-const targetConfig = {
-  // dev client will only be run by npm run dev. will be available on port 3000
-  dev: {
-    baseURL: '/',
-    outputDir: '.output/dev',
-    wsUrl: 'ws://localhost:4000/socket',
-  },
-  // wallaby client will only be run by npm run generate and served by the phoenix dev server, so no port required
-  wallaby: {
-    baseURL: '/client_test/',
-    outputDir: '.output/wallaby',
-    wsUrl: 'ws://localhost:4002/socket',
-  },
-  // prod: {
-  //   baseURL: '/',
-  //   outputDir: '.output/prod',
-  //   wsUrl: 'wss://myapp.com/socket',
-  // }
-}[target]
+interface TargetConfig {
+  baseURL: string
+  outputDir: string
+  wsUrl: string
+}
+
+let targetConfig: TargetConfig
+
+switch (target) {
+  case 'dev':
+    targetConfig = {
+      baseURL: '/',
+      wsUrl: 'ws://localhost:4000/socket',
+      outputDir: '.output/dev',
+    }
+    break
+
+  case 'wallaby':
+    targetConfig = {
+      baseURL: '/client_test/',
+      wsUrl: 'ws://localhost:4002/socket',
+      outputDir: '.output/wallaby',
+    }
+    break
+
+  // case 'prod':
+  //   targetConfig = {
+  //     baseURL: '/',
+  //     outputDir: '.output/prod',
+  //     wsUrl: 'wss://myapp.com/socket',
+  //   }
+  //   break
+
+  default:
+    throw new Error(
+      `❌ Unknown TARGET "${target}".\nValid options: dev, wallaby`
+    )
+}
 
 export default defineNuxtConfig({
   compatibilityDate: '2025-05-15',
   devtools: { enabled: true },
   app: {
-    baseURL: targetConfig?.baseURL,
+    baseURL: targetConfig.baseURL,
   },
   runtimeConfig: {
     public: {
-      wsUrl: targetConfig?.wsUrl,
+      wsUrl: targetConfig.wsUrl,
     }
   },
   nitro: {
     output: {
-      dir: targetConfig?.outputDir,
+      dir: targetConfig.outputDir,
     }
   },
 })
