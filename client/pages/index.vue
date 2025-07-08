@@ -16,7 +16,7 @@
     <div>
       WS URL: {{ wsUrl }}
     </div>
-    <button @click="sendPing" :disabled="!isJoined">Send Ping</button>
+    <Button @click="sendPing" :disabled="!isJoined">Send Ping</Button>
     <ul>
       <li v-for="(msg, idx) in messages" :key="idx">{{ msg }}</li>
     </ul>
