@@ -88,6 +88,20 @@ Installing shadcn
 
 As per https://www.shadcn-vue.com/docs/installation/nuxt.html
 
+A few moving parts:
+
+* Shadcn-vue: https://www.shadcn-vue.com/docs/introduction
+* Shadcn-vue nuxt module: https://nuxt.com/modules/shadcn
+* Tailwind wasn't installed using the nuxt module, just the npm package. tailwind.config.js wasn't created automatically, so did `npx tailwindcss-cli init` later, though could have just created it yourself, but this command gave it a bit of a baseline.
+
+Files and dirs created during installation:
+
+* components/ui - where the components go
+* assets/css/tailwind/css - got populated when installing shadcn
+* lib/utils.ts - tw merge stuff
+* components.json - config for components, see https://www.shadcn-vue.com/docs/components-json.html for info
+* nuxt.config.ts - shadcn nuxt module config, see https://nuxt.com/modules/shadcn
+
 
 Todo
 ----
