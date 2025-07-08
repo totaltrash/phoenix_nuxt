@@ -1,4 +1,5 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+import tailwindcss from '@tailwindcss/vite'
 
 const target = process.env.TARGET || 'dev'
 
@@ -56,5 +57,11 @@ export default defineNuxtConfig({
     output: {
       dir: targetConfig.outputDir,
     }
+  },
+  css: ['~/assets/css/tailwind.css'],
+  vite: {
+    plugins: [
+      tailwindcss(),
+    ],
   },
 })

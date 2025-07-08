@@ -83,6 +83,12 @@ I just need to make sure all the ports line up for both environments. I'm curren
 UPDATE: the nuxt dev client now runs automatically on starting the Phoenix server. It uses a wrapper (run_wrapper) to handle cleaning up zombie processes - see https://hexdocs.pm/elixir/Port.html#module-zombie-operating-system-processes for more info. The same strategy doesn't work so well in test unfortunately, there is always a process hanging around, so keep the existing strategy for test, ie generate a client and let Phoenix serve it, though i have kept a wip on implementing the wrapper and dev client in nuxt_helper.ex.
 
 
+Installing shadcn
+-----------------
+
+As per https://www.shadcn-vue.com/docs/installation/nuxt.html
+
+
 Todo
 ----
 
