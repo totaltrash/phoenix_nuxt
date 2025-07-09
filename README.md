@@ -93,6 +93,7 @@ A few moving parts:
 * Shadcn-vue: https://www.shadcn-vue.com/docs/introduction
 * Shadcn-vue nuxt module: https://nuxt.com/modules/shadcn
 * Tailwind wasn't installed using the nuxt module, just the npm package. tailwind.config.js wasn't created automatically, so did `npx tailwindcss-cli init` later, though could have just created it yourself, but this command gave it a bit of a baseline.
+* Lucide vue next: https://lucide.dev/guide/packages/lucide-vue-next
 
 Files and dirs created during installation:
 
@@ -101,6 +102,8 @@ Files and dirs created during installation:
 * lib/utils.ts - tw merge stuff
 * components.json - config for components, see https://www.shadcn-vue.com/docs/components-json.html for info
 * nuxt.config.ts - shadcn nuxt module config, see https://nuxt.com/modules/shadcn
+
+See https://v4.shadcn-vue.com/ for examples of components
 
 
 Todo

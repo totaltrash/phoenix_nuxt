@@ -1,20 +1,9 @@
 <template>
-  <header>
-    <nav>
-      <ul>
-        <li>
-          <NuxtLink to="/">Index</NuxtLink>
-        </li>
-        <li>
-          <NuxtLink to="/other">Other</NuxtLink>
-        </li>
-      </ul>
-    </nav>
-  </header>
-  <main>
-    <h1>Other</h1>
-  </main>
+  <h1>Other</h1>
 </template>
 
 <script setup lang="ts">
+definePageMeta({
+  layout: 'app'
+})
 </script>
