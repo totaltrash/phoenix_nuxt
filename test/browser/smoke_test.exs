@@ -1,10 +1,10 @@
-defmodule Test.Browser.HomeTest do
+defmodule Test.Browser.SmokeTest do
   use Test.BrowserCase
 
   feature "smoke", %{session: session} do
     session
-    |> visit("/")
-    |> assert_has(Query.css("h1", text: "Playing with Nuxt and Phoenix"))
+    |> visit("/ping")
+    |> assert_has(Query.css("h1", text: "Ping"))
     |> assert_has(Query.css("button", text: "Send Ping"))
     |> assert_has(Query.text("poke: hello from Nuxt", count: 0))
     |> click(Query.css("button", text: "Send Ping"))
@@ -18,10 +18,10 @@ defmodule Test.Browser.HomeTest do
   feature "navigate between views", %{session: session} do
     session
     |> visit("/")
-    |> assert_has(Query.css("h1", text: "Playing with Nuxt and Phoenix"))
+    |> assert_has(Query.css("h1", text: "Home"))
     |> click(Query.link("Other"))
     |> assert_has(Query.css("h1", text: "Other"))
-    |> click(Query.link("Index"))
-    |> assert_has(Query.css("h1", text: "Playing with Nuxt and Phoenix"))
+    |> click(Query.link("Ping"))
+    |> assert_has(Query.css("h1", text: "Ping"))
   end
 end

@@ -109,9 +109,13 @@ See https://v4.shadcn-vue.com/ for examples of components
 Todo
 ----
 
-See if there is a way to conditionally generate the nuxt client during tests - is there a way to see if a build is stale? See https://stackoverflow.com/questions/545387/linux-compute-a-single-hash-for-a-given-folder-contents
+Dry up some of the values for nuxt client in tests - currently hardcoding:
 
-Install shadcn or something
+* client/.output/wallaby/public/
+* the list of environments to run the test client in
+* the path to find the client (currently /client_test)
+
+See if there is a way to conditionally generate the nuxt client during tests - is there a way to see if a build is stale? See https://stackoverflow.com/questions/545387/linux-compute-a-single-hash-for-a-given-folder-contents
 
 Login screen and auth stuff
 

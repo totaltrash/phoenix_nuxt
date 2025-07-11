@@ -5,6 +5,7 @@ const target = process.env.TARGET || 'dev'
 
 interface TargetConfig {
   baseURL: string
+  buildDir: string
   outputDir: string
   wsUrl: string
 }
@@ -15,16 +16,18 @@ switch (target) {
   case 'dev':
     targetConfig = {
       baseURL: '/',
-      wsUrl: 'ws://localhost:4000/socket',
+      buildDir: '.nuxt/dev',
       outputDir: '.output/dev',
+      wsUrl: 'ws://localhost:4000/socket',
     }
     break
 
   case 'wallaby':
     targetConfig = {
       baseURL: '/client_test/',
-      wsUrl: 'ws://localhost:4002/socket',
+      buildDir: '.nuxt/wallaby',
       outputDir: '.output/wallaby',
+      wsUrl: 'ws://localhost:4002/socket',
     }
     break
 
@@ -45,6 +48,8 @@ switch (target) {
 export default defineNuxtConfig({
   compatibilityDate: '2025-05-15',
   devtools: { enabled: true },
+
+  buildDir: targetConfig.buildDir,
 
   app: {
     baseURL: targetConfig.baseURL,
@@ -68,6 +73,12 @@ export default defineNuxtConfig({
     plugins: [
       tailwindcss(),
     ],
+    server: {
+      watch: {
+        // don't trigger hmr in dev when `nuxt generate` happens in test
+        ignored: ['**/.output/wallaby/**', '**/.nuxt/wallaby/**'],
+      },
+    },
   },
 
   modules: ['shadcn-nuxt'],
@@ -82,5 +93,5 @@ export default defineNuxtConfig({
      * @default "./components/ui"
      */
     componentDir: './components/ui'
-  }
+  },
 })

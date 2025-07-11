@@ -1,6 +1,6 @@
 <template>
 
-  <h1>Playing with Nuxt and Phoenix</h1>
+  <h1>Ping</h1>
   <div>
     WS URL: {{ wsUrl }}
   </div>

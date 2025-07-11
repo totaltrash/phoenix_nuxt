@@ -34,7 +34,7 @@ defmodule Web.Endpoint do
     only: Web.static_paths()
 
   # Start the nuxt client in test environment only, sometimes dev when debugging
-  if Mix.env() in [:test] do
+  if Mix.env() in [:dev, :test] do
     plug Plug.Static,
       at: "/client_test",
       from: "client/.output/wallaby/public/"

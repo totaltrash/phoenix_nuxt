@@ -25,7 +25,19 @@ defmodule Test.NuxtHelper do
   end
   ```
 
-  And the following to test_helper.exs:
+  This to the router:
+
+  ```
+    if Mix.env() in [:dev, :test] do
+    scope "/client_test", Web do
+      get "/*path", NuxtController, :index
+    end
+  end
+  ```
+
+  And a fallback controller to handle paths to pages (see NuxtController)
+
+  Then, add the following to test_helper.exs:
 
   ```
   Test.NuxtHelper.generate_nuxt_client!()

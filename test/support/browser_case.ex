@@ -15,6 +15,7 @@ defmodule Test.BrowserCase do
       import Wallaby.Feature
       import Test.Factory
       import Test.CssSelectors
+      import Test.BrowserCase
 
       use Web, :verified_routes
 

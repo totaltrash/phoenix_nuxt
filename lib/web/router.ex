@@ -20,6 +20,12 @@ defmodule Web.Router do
     get "/", PageController, :home
   end
 
+  if Mix.env() in [:dev, :test] do
+    scope "/client_test", Web do
+      get "/*path", NuxtController, :index
+    end
+  end
+
   # Other scopes may use custom stacks.
   # scope "/api", Web do
   #   pipe_through :api
