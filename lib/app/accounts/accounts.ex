@@ -5,6 +5,12 @@ defmodule App.Accounts do
   resources do
     resource App.Accounts.User do
       define :get_user, action: :read, get_by: :id
+
+      define :get_by_credentials,
+        action: :by_username_and_password,
+        args: [:username, :password],
+        get?: true
+
       define :read_all_users, action: :read
       define :create_user, action: :create
       define :delete_user, action: :destroy

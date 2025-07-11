@@ -12,12 +12,19 @@ defmodule Web.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug :fetch_session
   end
 
   scope "/", Web do
     pipe_through :browser
 
     get "/", PageController, :home
+  end
+
+  scope "/api/", Web do
+    pipe_through :api
+
+    post "/login", AuthController, :login
   end
 
   if Mix.env() in [:dev, :test] do

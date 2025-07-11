@@ -28,6 +28,7 @@ defmodule Test.ConnCase do
       import Plug.Conn
       import Phoenix.ConnTest
       import Test.ConnCase
+      import Test.Factory
     end
   end
 
