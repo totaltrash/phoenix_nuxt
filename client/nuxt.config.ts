@@ -8,6 +8,7 @@ interface TargetConfig {
   buildDir: string
   outputDir: string
   wsUrl: string
+  apiUrl: string
 }
 
 let targetConfig: TargetConfig
@@ -19,6 +20,7 @@ switch (target) {
       buildDir: '.nuxt/dev',
       outputDir: '.output/dev',
       wsUrl: 'ws://localhost:4000/socket',
+      apiUrl: 'http://localhost:4000/api'
     }
     break
 
@@ -28,6 +30,7 @@ switch (target) {
       buildDir: '.nuxt/wallaby',
       outputDir: '.output/wallaby',
       wsUrl: 'ws://localhost:4002/socket',
+      apiUrl: '/api'
     }
     break
 
@@ -58,6 +61,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       wsUrl: targetConfig.wsUrl,
+      apiUrl: targetConfig.apiUrl,
     }
   },
 

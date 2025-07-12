@@ -15,6 +15,7 @@ defmodule Test.Browser.Auth.LoginTest do
   feature "login with tags overriding user defaults", %{session: session} do
     session
     |> visit(login_route())
+    |> assert_has(login_form())
     |> fill_form("BAMMO", "CHOMPY12")
     |> assert_has(Query.css(page_heading(), text: "Home"))
   end
@@ -60,16 +61,16 @@ defmodule Test.Browser.Auth.LoginTest do
   # defp login_route, do: "/login"
   defp home_route, do: "/"
   defp other_route, do: "/other"
-  defp login_form, do: Query.css("#login_form")
+  defp login_form, do: Query.css("#log_in_form")
 
   defp assert_login_failed(session) do
-    assert_has(session, Query.css(toast(), text: "Username or password is incorrect"))
+    assert_has(session, Query.css("#alert_error", text: "Invalid username or password"))
   end
 
   defp fill_form(session, username, password) do
     session
     |> fill_in(Query.text_field("Username"), with: username)
     |> fill_in(Query.text_field("Password"), with: password)
-    |> click(Query.button("Login"))
+    |> click(Query.button("Sign in"))
   end
 end

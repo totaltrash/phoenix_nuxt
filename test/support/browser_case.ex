@@ -84,7 +84,7 @@ defmodule Test.BrowserCase do
     session
     |> fill_in(Query.text_field("Username"), with: username)
     |> fill_in(Query.text_field("Password"), with: password)
-    |> click(Query.button("Login"))
+    |> click(Query.button("Sign in"))
   end
 
   def assert_logged_in(session) do
