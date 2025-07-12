@@ -21,6 +21,13 @@ defmodule Web.AuthControllerTest do
     assert "Invalid credentials" == Map.get(body, "error")
   end
 
+  test "no roles", %{conn: conn} do
+    {user, password} = insert_user(%{with_raw_password: true, roles: []})
+    conn = post(conn, ~p"/api/login", %{"username" => user.username, "password" => password})
+    body = json_response(conn, 401)
+    assert "Invalid credentials" == Map.get(body, "error")
+  end
+
   test "bad params", %{conn: conn} do
     {user, password} = insert_user(%{with_raw_password: true})
 

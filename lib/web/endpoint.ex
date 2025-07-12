@@ -40,6 +40,13 @@ defmodule Web.Endpoint do
       from: "client/.output/wallaby/public/"
   end
 
+  # Enable CORS for dev environment only
+  if Mix.env() == :dev do
+    plug CORSPlug,
+      origin: ["http://localhost:3000"],
+      credentials: true
+  end
+
   # Code reloading can be explicitly enabled under the
   # :code_reloader configuration of your endpoint.
   if code_reloading? do
@@ -64,5 +71,6 @@ defmodule Web.Endpoint do
   plug Plug.MethodOverride
   plug Plug.Head
   plug Plug.Session, @session_options
+
   plug Web.Router
 end
