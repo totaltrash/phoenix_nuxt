@@ -61,4 +61,23 @@ defmodule Web.AuthControllerTest do
     conn = get(conn, ~p"/api/me")
     assert response(conn, 401) == ""
   end
+
+  test "logout", %{conn: conn} do
+    user = insert_user()
+
+    conn =
+      conn
+      |> login_user(user)
+      |> post(~p"/api/logout")
+
+    assert response(conn, 204) == ""
+  end
+
+  test "logout but not logged in", %{conn: conn} do
+    conn =
+      conn
+      |> post(~p"/api/logout")
+
+    assert response(conn, 401) == ""
+  end
 end

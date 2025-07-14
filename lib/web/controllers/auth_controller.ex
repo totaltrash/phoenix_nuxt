@@ -26,6 +26,19 @@ defmodule Web.AuthController do
     |> json(%{error: "Invalid credentials"})
   end
 
+  def logout(%{assigns: %{current_user: _current_user}} = conn, _params) do
+    conn
+    |> Authentication.logout_user()
+    |> put_status(:no_content)
+    |> send_resp()
+  end
+
+  def logout(conn, _params) do
+    conn
+    |> put_status(:unauthorized)
+    |> send_resp()
+  end
+
   def me(conn, _params) do
     case conn.assigns[:current_user] do
       %App.Accounts.User{} = user ->

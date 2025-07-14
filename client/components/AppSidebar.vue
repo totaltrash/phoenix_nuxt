@@ -1,9 +1,12 @@
 <script setup lang="ts">
-import { Calendar, Home, Inbox, Search, Settings, ArrowUpDown, Squirrel } from "lucide-vue-next"
+import { LogOut, Home, Inbox, Search, Settings, ArrowUpDown, Squirrel } from "lucide-vue-next"
 import { useSidebar } from "./ui/sidebar"
+import { useApi } from "~/composables/useApi"
+import { useUserSession } from '~/composables/useUserSession'
+const { clearUser } = useUserSession()
+const api = useApi()
 
 const route = useRoute()
-
 
 // Menu items.
 const items = [
@@ -23,9 +26,9 @@ const items = [
     icon: Squirrel,
   },
   // {
-  //   title: "Calendar",
+  //   title: "LogOut",
   //   url: "#",
-  //   icon: Calendar,
+  //   icon: LogOut,
   // },
   // {
   //   title: "Search",
@@ -43,6 +46,13 @@ const isActive = (url: string) => {
   return route.path === url
 }
 
+async function logOut() {
+  console.log('Log out clicked')
+  await api('/logout', { method: 'POST' })
+  clearUser()
+  await navigateTo('/login')
+}
+
 </script>
 
 <template>
@@ -58,6 +68,12 @@ const isActive = (url: string) => {
                   <component :is="item.icon" />
                   <span>{{ item.title }}</span>
                 </NuxtLink>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+            <SidebarMenuItem>
+              <SidebarMenuButton @click="logOut">
+                <LogOut />
+                <span>Log out</span>
               </SidebarMenuButton>
             </SidebarMenuItem>
           </SidebarMenu>

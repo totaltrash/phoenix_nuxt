@@ -18,11 +18,11 @@
           </Alert>
           <div class="grid gap-2">
             <Label for="username">Username</Label>
-            <Input id="username" type="text" v-model="credentials.username" @input="error = null" required autofocus />
+            <Input id="username" type="text" v-model="form.username" @input="error = null" required autofocus />
           </div>
           <div class="grid gap-2">
             <Label for="password">Password</Label>
-            <Input id="password" type="password" v-model="credentials.password" @input="error = null" required />
+            <Input id="password" type="password" v-model="form.password" @input="error = null" required />
           </div>
         </CardContent>
         <CardFooter>
@@ -44,12 +44,14 @@
 <script setup lang="ts">
 import { useApi } from '~/composables/useApi'
 import { Loader } from 'lucide-vue-next'
+import { useUserSession } from '~/composables/useUserSession'
+import type { User } from '~/types/user'
 
 definePageMeta({ layout: 'public' })
 
-const credentials = reactive({
-  username: '',
-  password: '',
+const form = reactive({
+  username: 'someuser',
+  password: 'SomeP@ss',
 })
 
 const loading = ref(false)
@@ -57,12 +59,22 @@ const error = ref<string | null>(null)
 
 const login = async () => {
   const api = useApi()
+  const route = useRoute()
+  const config = useRuntimeConfig()
+
   error.value = null
   loading.value = true
 
   try {
-    await api('/login', { method: 'POST', body: credentials })
-    await navigateTo(useRuntimeConfig().app.baseURL, { external: true })
+    const user: User = await api('/login', { method: 'POST', body: form })
+    useUserSession().setUser(user)
+    let redirectTo
+    if (route.query.dest) {
+      redirectTo = config.app.baseURL + route.query.dest
+    } else {
+      redirectTo = config.app.baseURL
+    }
+    await navigateTo(redirectTo, { external: true })
   } catch (err: any) {
     if (err?.name === 'FetchError' && err?.message.includes('no response')) {
       error.value = `Error: Unable to connect to server`
@@ -76,7 +88,7 @@ const login = async () => {
     else {
       error.value = 'Unexpected error: Please try again later'
     }
-    credentials.password = ''
+    form.password = ''
     console.debug(err)
   } finally {
     loading.value = false

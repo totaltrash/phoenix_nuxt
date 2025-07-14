@@ -16,7 +16,7 @@ let targetConfig: TargetConfig
 switch (target) {
   case 'dev':
     targetConfig = {
-      baseURL: '/',
+      baseURL: '',
       buildDir: '.nuxt/dev',
       outputDir: '.output/dev',
       wsUrl: 'ws://localhost:4000/socket',
@@ -26,7 +26,7 @@ switch (target) {
 
   case 'wallaby':
     targetConfig = {
-      baseURL: '/client_test/',
+      baseURL: '/client_test',
       buildDir: '.nuxt/wallaby',
       outputDir: '.output/wallaby',
       wsUrl: 'ws://localhost:4002/socket',
@@ -49,6 +49,7 @@ switch (target) {
 }
 
 export default defineNuxtConfig({
+  ssr: false,
   compatibilityDate: '2025-05-15',
   devtools: { enabled: true },
 

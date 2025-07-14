@@ -32,6 +32,7 @@ defmodule Web.Router do
     pipe_through [:api, :require_authenticated_user]
 
     get "/me", AuthController, :me
+    post "/logout", AuthController, :logout
   end
 
   if Mix.env() in [:dev, :test] do

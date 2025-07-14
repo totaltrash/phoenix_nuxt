@@ -106,6 +106,27 @@ Files and dirs created during installation:
 See https://v4.shadcn-vue.com/ for examples of components
 
 
+Authentication
+--------------
+
+Using session based auth as a specific api/frontend. Modifying previous version of authentication plugs from baseline.
+
+Jobs:
+
+* [x] Implement login screen
+* [x] Implement login user api endpoint
+* [x] Implement current user api endpoint (/api/me for now, maybe rename to /api/current_user?)
+* [x] Implement authentication plugs and helpers (Web.Security.Authentication)
+* [x] useUserSession for storing user details
+* [x] Nuxt middleware for blocking access to protected routes requiring current user and vice versa (can't get to login if logged in)
+* [ ] Protect the socket
+* [ ] Remember me
+* [x] Log out
+* [ ] Log out by admin for all user's sessions
+* [ ] 
+* [ ] 
+
+
 Todo
 ----
 
