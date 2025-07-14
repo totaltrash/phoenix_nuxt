@@ -44,8 +44,6 @@
 <script setup lang="ts">
 import { useApi } from '~/composables/useApi'
 import { Loader } from 'lucide-vue-next'
-import { useUserSession } from '~/composables/useUserSession'
-import type { User } from '~/types/user'
 
 definePageMeta({ layout: 'public' })
 
@@ -66,8 +64,7 @@ const login = async () => {
   loading.value = true
 
   try {
-    const user: User = await api('/login', { method: 'POST', body: form })
-    useUserSession().setUser(user)
+    await api('/login', { method: 'POST', body: form })
     let redirectTo
     if (route.query.dest) {
       redirectTo = config.app.baseURL + route.query.dest

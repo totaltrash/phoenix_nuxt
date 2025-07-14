@@ -10,8 +10,7 @@ defmodule Web.AuthControllerTest do
   test "valid login", %{conn: conn} do
     {user, password} = insert_user(%{with_raw_password: true})
     conn = post(conn, ~p"/api/login", %{"username" => user.username, "password" => password})
-    body = json_response(conn, 200)
-    assert body["user"]["id"] == user.id
+    assert response(conn, 204)
     assert get_session(conn, :user_token) != nil
   end
 
