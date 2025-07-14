@@ -27,6 +27,7 @@ defmodule Web do
       import Plug.Conn
       import Phoenix.Controller
       import Phoenix.LiveView.Router
+      import Web.Security.Authentication
     end
   end
 

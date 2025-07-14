@@ -16,6 +16,7 @@ defmodule Test.ConnCase do
   """
 
   use ExUnit.CaseTemplate
+  import Phoenix.ConnTest
 
   using do
     quote do
@@ -35,5 +36,24 @@ defmodule Test.ConnCase do
   setup tags do
     Test.DataCase.setup_sandbox(tags)
     {:ok, conn: Phoenix.ConnTest.build_conn()}
+  end
+
+  @doc """
+  Emulate logging in a user by stashing the token and other stuff into the test session
+
+  Keep this in sync with Web.Security.Authentication.login_user()
+  """
+  def login_user(conn, %App.Accounts.User{} = user) do
+    token =
+      user.id
+      |> App.Accounts.create_session_token!()
+      |> Map.get(:token)
+
+    session = %{
+      user_token: token,
+      ashjs_socket_id: "users_sessions:#{Base.url_encode64(token)}"
+    }
+
+    init_test_session(conn, session)
   end
 end

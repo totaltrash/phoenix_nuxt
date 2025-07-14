@@ -24,7 +24,7 @@ defmodule Web.Security.Authentication do
   disconnected on log out. The line can be safely removed
   if you are not using LiveView.
   """
-  def login_user(conn, user, params \\ %{}) do
+  def login_user(conn, user, remember_me \\ false) do
     token =
       user.id
       |> Accounts.create_session_token!()
@@ -34,15 +34,14 @@ defmodule Web.Security.Authentication do
     |> renew_session()
     |> put_session(:user_token, token)
     |> put_session(:ashjs_socket_id, "users_sessions:#{Base.url_encode64(token)}")
-    |> maybe_write_remember_me_cookie(token, params)
-    |> resp(204, "")
+    |> maybe_write_remember_me_cookie(token, remember_me)
   end
 
-  defp maybe_write_remember_me_cookie(conn, token, %{"remember_me" => "true"}) do
+  defp maybe_write_remember_me_cookie(conn, token, true) do
     put_resp_cookie(conn, @remember_me_cookie, token, @remember_me_options)
   end
 
-  defp maybe_write_remember_me_cookie(conn, _token, _params) do
+  defp maybe_write_remember_me_cookie(conn, _token, _remember_me) do
     conn
   end
 
@@ -125,48 +124,19 @@ defmodule Web.Security.Authentication do
     end
   end
 
-  # @doc """
-  # Used for routes that require the user to not be authenticated.
-  # """
-  # def redirect_if_user_is_authenticated(conn, _opts) do
-  #   if conn.assigns[:current_user] do
-  #     conn
-  #     |> redirect(to: signed_in_path(conn))
-  #     |> halt()
-  #   else
-  #     conn
-  #   end
-  # end
+  @doc """
+  Used for routes that require the user to be authenticated.
 
-  # @doc """
-  # Used for routes that require the user to be authenticated.
-
-  # If you want to enforce the user email is confirmed before
-  # they use the application at all, here would be a good place.
-  # """
-  # def require_authenticated_user(conn, _opts) do
-  #   if conn.assigns[:current_user] do
-  #     conn
-  #   else
-  #     conn
-  #     |> put_flash(:error, "You must log in to access this page.")
-  #     |> maybe_store_return_to()
-  #     |> redirect(to: ~p"/login")
-  #     |> halt()
-  #   end
-  # end
-
-  # defp maybe_store_return_to(%{method: "GET"} = conn) do
-  #   put_session(conn, :user_return_to, current_path(conn))
-  # end
-
-  # defp maybe_store_return_to(conn), do: conn
-
-  # defp signed_in_path(_conn), do: "/"
-
-  # def put_session_layout(conn, _opts) do
-  #   conn
-  #   |> put_layout(false)
-  #   |> put_root_layout({Web.LayoutView, :session})
-  # end
+  If you want to enforce the user email is confirmed before
+  they use the application at all, here would be a good place.
+  """
+  def require_authenticated_user(conn, _opts) do
+    if conn.assigns[:current_user] do
+      conn
+    else
+      conn
+      |> send_resp(:unauthorized, "")
+      |> halt()
+    end
+  end
 end

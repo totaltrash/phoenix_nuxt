@@ -1,6 +1,12 @@
 defmodule Test.Browser.Auth.LoginTest do
   use Test.BrowserCase
 
+  @moduledoc """
+  Testing full end to end login flows
+
+  See test/controllers/auth_controller_test.exs for lower level integration tests for the api/login endpoint
+  """
+
   @moduletag login: false
 
   feature "successful login", %{session: session, user: user, raw_password: raw_password} do

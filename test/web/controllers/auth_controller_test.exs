@@ -1,10 +1,17 @@
 defmodule Web.AuthControllerTest do
   use Test.ConnCase
 
+  @moduledoc """
+  Integration testing the /api/login and /api/me endpoints
+
+  See test/browser/auth/ tests for higher level testing around login flows
+  """
+
   test "valid login", %{conn: conn} do
     {user, password} = insert_user(%{with_raw_password: true})
     conn = post(conn, ~p"/api/login", %{"username" => user.username, "password" => password})
-    assert response(conn, 204)
+    body = json_response(conn, 200)
+    assert body["user"]["id"] == user.id
     assert get_session(conn, :user_token) != nil
   end
 
@@ -36,5 +43,22 @@ defmodule Web.AuthControllerTest do
 
     body = json_response(conn, 401)
     assert "Invalid credentials" == Map.get(body, "error")
+  end
+
+  test "me endpoint", %{conn: conn} do
+    user = insert_user()
+
+    conn =
+      conn
+      |> login_user(user)
+      |> get(~p"/api/me")
+
+    body = json_response(conn, 200)
+    assert body["user"]["id"] == user.id
+  end
+
+  test "me endpoint, no current user", %{conn: conn} do
+    conn = get(conn, ~p"/api/me")
+    assert response(conn, 401) == ""
   end
 end
