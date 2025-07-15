@@ -3,6 +3,11 @@ import { useUserSession } from '~/composables/useUserSession'
 export default defineNuxtRouteMiddleware(async (to) => {
   const { user, fetchUser } = useUserSession()
 
+  if (to.path === '/test_public') {
+    console.log('Auth: Test public, no fetchUser')
+    return
+  }
+
   if (to.path === '/login') {
     await fetchUser()
 

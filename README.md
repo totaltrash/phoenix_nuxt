@@ -3,6 +3,18 @@ Playing with Phoenix and Nuxt
 
 Yeah, I'm doing it again!
 
+Links while dev
+---------------
+
+* https://www.shadcn-vue.com
+* https://v4.shadcn-vue.com
+* https://nuxt.com/docs/api/nuxt-config
+* https://nuxt.com/docs/guide/directory-structure/composables
+* https://nitro.build/config
+* https://lucide.dev/icons/
+* https://tailwindcss.com/docs
+
+
 Install
 -------
 
@@ -130,6 +142,8 @@ Jobs:
 Todo
 ----
 
+There's an issue when double clicking refresh that hangs a tab. I removed all the auth stuff, and still experienced it, the only thing left in the app at that time was the socket connection. I have to change how and when the socket connects so the problem may go away after that.
+
 Dry up some of the values for nuxt client in tests - currently hardcoding:
 
 * client/.output/wallaby/public/
@@ -137,8 +151,6 @@ Dry up some of the values for nuxt client in tests - currently hardcoding:
 * the path to find the client (currently /client_test)
 
 See if there is a way to conditionally generate the nuxt client during tests - is there a way to see if a build is stale? See https://stackoverflow.com/questions/545387/linux-compute-a-single-hash-for-a-given-folder-contents
-
-Login screen and auth stuff
 
 Play with calling Ash actions from the client through the socket
 

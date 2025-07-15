@@ -10,7 +10,9 @@ export const useUserSession = () => {
   const error = useState<string | null>('sessionError', () => null)
 
   async function fetchUser() {
-    if (user.value || loading.value) return
+    if (user.value || loading.value) {
+      return
+    }
 
     loading.value = true
     error.value = null
