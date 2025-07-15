@@ -14,11 +14,13 @@ export const useUserSession = () => {
       return
     }
 
+    console.log('useUserSession: Fetching user')
+
     loading.value = true
     error.value = null
 
     try {
-      const result: MeResponse = await api('/me')
+      const result = await api<MeResponse>('/me')
       user.value = result.user
     } catch (err: any) {
       if (err?.response?.status === 401) {

@@ -1,4 +1,5 @@
 import { Channel } from 'phoenix'
+import { useSocket } from '~/composables/useSocket'
 
 export const useRoomChannel = () => {
   const isJoined = ref(false)
@@ -37,12 +38,13 @@ export const useRoomChannel = () => {
   }
 
   onBeforeMount(() => {
-    const { $socket } = useNuxtApp()
-    if (!$socket) {
-      throw new Error('$socket is undefined — is the plugin running in the client?')
+    const { getSocket } = useSocket()
+    let socket = getSocket()
+    if (!socket) {
+      throw new Error('socket is undefined — is the plugin running in the client?')
     }
 
-    channel = $socket.channel('room:lobby')
+    channel = socket.channel('room:lobby')
 
     channel!
       .join()

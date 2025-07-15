@@ -1,8 +1,11 @@
 import { useUserSession } from '~/composables/useUserSession'
+import { useSocket } from '~/composables/useSocket'
 
 export default defineNuxtRouteMiddleware(async (to) => {
   const { user, fetchUser } = useUserSession()
+  const { connectSocket } = useSocket()
 
+  // public paths, no fetch user, or socket/channel
   if (to.path === '/test_public') {
     console.log('Auth: Test public, no fetchUser')
     return
@@ -12,6 +15,7 @@ export default defineNuxtRouteMiddleware(async (to) => {
     await fetchUser()
 
     if (user.value) {
+      connectSocket()
       console.log('Auth: Already logged in, redirecting to home')
       return navigateTo('/')
     }
@@ -29,6 +33,6 @@ export default defineNuxtRouteMiddleware(async (to) => {
     console.log('Auth: Redirecting to login')
     return navigateTo(`/login?dest=${encodeURIComponent(to.fullPath)}`)
   }
-
+  connectSocket()
   console.log('Auth: Moving to selected route')
 })
