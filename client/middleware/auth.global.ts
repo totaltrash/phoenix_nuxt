@@ -1,38 +1,45 @@
-import { useUserSession } from '~/composables/useUserSession'
+import { useSession } from '~/composables/useSession'
 import { useSocket } from '~/composables/useSocket'
+// import { useAppStatus } from '~/composables/useAppStatus'
 
+// More than just an auth middleware
+//
+// Coordinates all the services that need to happen when logged in, such as the socket... more to come
 export default defineNuxtRouteMiddleware(async (to) => {
-  const { user, fetchUser } = useUserSession()
+  const { user, fetchUser } = useSession()
   const { connectSocket } = useSocket()
 
-  // public paths, no fetch user, or socket/channel
+  // const { error } = useAppStatus()
+  // error.value = null
+
+  // public path, go there without getting the user or setting up the socket
   if (to.path === '/test_public') {
-    console.log('Auth: Test public, no fetchUser')
     return
   }
+
+  await fetchUser()
+
+  let redirect: string | null = null
 
   if (to.path === '/login') {
-    await fetchUser()
-
-    if (user.value) {
-      connectSocket()
-      console.log('Auth: Already logged in, redirecting to home')
-      return navigateTo('/')
+    if (!user.value) {
+      // not currently logged in so go there
+      return
     }
 
-    return
-  }
-
-  // only fetch if we haven’t already got it stored in state
-  if (!user.value) {
-    console.log('Auth: Fetching user')
-    await fetchUser()
+    // don't go to /login if already logged in
+    redirect = '/'
   }
 
   if (!user.value) {
-    console.log('Auth: Redirecting to login')
+    // not logged in, so go to login and give the requested route as a destination after login
     return navigateTo(`/login?dest=${encodeURIComponent(to.fullPath)}`)
   }
+
+  // we're logged in and we're going to a protected route, so connect the socket etc
   connectSocket()
-  console.log('Auth: Moving to selected route')
+
+  if (redirect) {
+    return navigateTo(redirect)
+  }
 })

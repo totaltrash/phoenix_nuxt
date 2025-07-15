@@ -2,8 +2,8 @@
 import { LogOut, Home, Inbox, Search, Settings, ArrowUpDown, Squirrel } from "lucide-vue-next"
 import { useSidebar } from "./ui/sidebar"
 import { useApi } from "~/composables/useApi"
-import { useUserSession } from '~/composables/useUserSession'
-const { clearUser } = useUserSession()
+import { useSession } from '~/composables/useSession'
+const { clearUser } = useSession()
 const api = useApi()
 
 const route = useRoute()

@@ -144,7 +144,11 @@ Jobs:
 Todo
 ----
 
-There's an issue when double clicking refresh that hangs a tab. I removed all the auth stuff, and still experienced it, the only thing left in the app at that time was the socket connection. I have to change how and when the socket connects so the problem may go away after that.
+Fix the broken autoimports
+
+Flesh out error reporting to user. we have useAppStatus and ErrorBanner, but we're not currently setting that anywhere, need to modify auth middleware to use this and get error messages from useApi, useSocket etc and populate useAppStatus.error. Or something like that...
+
+There's an issue when double clicking refresh that hangs a tab. I removed all the auth stuff, and still experienced it, the only thing left in the app at that time was the socket connection. I have to change how and when the socket connects so the problem may go away after that. I think this is now resolved with the socket getting built in a composable during middleware, instead of the plugin
 
 Dry up some of the values for nuxt client in tests - currently hardcoding:
 

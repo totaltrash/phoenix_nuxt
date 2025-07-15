@@ -1,22 +1,20 @@
 import { useApi } from '~/composables/useApi'
 import type { User } from '~/types/user'
 
-export const useUserSession = () => {
+export const useSession = () => {
   type MeResponse = { user: User }
 
   const api = useApi()
   const user = useState<User | null>('currentUser', () => null)
-  const loading = useState<boolean>('sessionLoading', () => false)
   const error = useState<string | null>('sessionError', () => null)
 
   async function fetchUser() {
-    if (user.value || loading.value) {
+    if (user.value) {
       return
     }
 
-    console.log('useUserSession: Fetching user')
+    console.log('useSession: Fetching user')
 
-    loading.value = true
     error.value = null
 
     try {
@@ -29,8 +27,6 @@ export const useUserSession = () => {
         error.value = 'Failed to fetch current user'
         console.error(err)
       }
-    } finally {
-      loading.value = false
     }
   }
 
@@ -38,16 +34,10 @@ export const useUserSession = () => {
     user.value = null
   }
 
-  function setUser(newUser: User | null) {
-    user.value = newUser
-  }
-
   return {
     user,
-    // loading,
     // error,
     fetchUser,
     clearUser,
-    setUser,
   }
 }
