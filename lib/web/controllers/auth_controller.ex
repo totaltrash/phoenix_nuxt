@@ -7,7 +7,7 @@ defmodule Web.AuthController do
     case App.Accounts.get_by_credentials(username, password) do
       {:ok, %App.Accounts.User{} = user} ->
         conn
-        |> Authentication.login_user(user, params)
+        |> Authentication.login_user(user, Map.get(params, "rememberMe", false))
         |> send_resp(:no_content, "")
 
       _ ->

@@ -132,7 +132,7 @@ Jobs:
 * [x] useUserSession for storing user details
 * [x] Nuxt middleware for blocking access to protected routes requiring current user and vice versa (can't get to login if logged in)
 * [ ] Protect the socket
-* [ ] Remember me
+* [x] Remember me
 * [x] Log out
 * [ ] Log out by admin for all user's sessions
 * [ ] 

@@ -24,7 +24,7 @@ defmodule Web.Security.Authentication do
   disconnected on log out. The line can be safely removed
   if you are not using LiveView.
   """
-  def login_user(conn, user, remember_me \\ false) do
+  def login_user(conn, user, remember_me) do
     token =
       user.id
       |> Accounts.create_session_token!()

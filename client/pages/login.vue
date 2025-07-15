@@ -24,6 +24,10 @@
             <Label for="password">Password</Label>
             <Input id="password" type="password" v-model="form.password" @input="error = null" required />
           </div>
+          <div class="flex gap-3">
+            <Checkbox id="remember-me" type="checkbox" v-model="form.rememberMe" @input="error = null" />
+            <Label for="remember-me">Remember me</Label>
+          </div>
         </CardContent>
         <CardFooter>
           <Button class="w-full" :disabled="loading">
@@ -50,6 +54,7 @@ definePageMeta({ layout: 'public' })
 const form = reactive({
   username: 'someuser',
   password: 'SomeP@ss',
+  rememberMe: false,
 })
 
 const loading = ref(false)
