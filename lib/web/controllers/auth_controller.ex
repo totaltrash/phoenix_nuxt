@@ -41,7 +41,7 @@ defmodule Web.AuthController do
       %App.Accounts.User{} = user ->
         conn
         |> put_status(:ok)
-        |> json(build_payload(user))
+        |> json(build_payload(conn, user))
 
       _ ->
         conn
@@ -49,7 +49,18 @@ defmodule Web.AuthController do
     end
   end
 
-  defp build_payload(%App.Accounts.User{} = user) do
-    %{user: %{id: user.id}}
+  defp build_payload(conn, %App.Accounts.User{} = user) do
+    token = Phoenix.Token.sign(conn, "user socket", user.id)
+
+    %{
+      user: %{
+        id: user.id,
+        firstName: user.first_name,
+        surname: user.surname,
+        username: user.username,
+        email: user.email
+      },
+      userToken: token
+    }
   end
 end

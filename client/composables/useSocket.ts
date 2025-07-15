@@ -12,7 +12,7 @@ export const useSocket = () => {
     }
 
     console.log('useSocket: Connecting the socket')
-
+    console.log(params)
     socketInstance = new Socket(config.public.wsUrl, { params })
     socketInstance.connect()
     socket.value = socketInstance

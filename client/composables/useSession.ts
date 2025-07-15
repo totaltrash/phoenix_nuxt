@@ -2,10 +2,11 @@ import { useApi } from '~/composables/useApi'
 import type { User } from '~/types/user'
 
 export const useSession = () => {
-  type MeResponse = { user: User }
+  type MeResponse = { user: User, userToken: string }
 
   const api = useApi()
-  const user = useState<User | null>('currentUser', () => null)
+  const user = useState<User | null>('sessionUser', () => null)
+  const userToken = useState<string | null>('sessionUserToken', () => null)
   const error = useState<string | null>('sessionError', () => null)
 
   async function fetchUser() {
@@ -19,7 +20,9 @@ export const useSession = () => {
 
     try {
       const result = await api<MeResponse>('/me')
+      // console.log(result)
       user.value = result.user
+      userToken.value = result.userToken
     } catch (err: any) {
       if (err?.response?.status === 401) {
         user.value = null
@@ -36,6 +39,7 @@ export const useSession = () => {
 
   return {
     user,
+    userToken,
     // error,
     fetchUser,
     clearUser,

@@ -132,7 +132,7 @@ Jobs:
 * [x] useUserSession for storing user details
 * [x] Nuxt middleware for blocking access to protected routes requiring current user and vice versa (can't get to login if logged in)
 * [x] Move socket connection out of the plugin and into a composable. Socket connection to be triggered by the middleware
-* [ ] Protect the socket
+* [x] Protect the socket
 * [ ] Move the channel stuff once you have a better idea of how this needs to be layed out - should join happen in the middleware?
 * [x] Remember me
 * [x] Log out

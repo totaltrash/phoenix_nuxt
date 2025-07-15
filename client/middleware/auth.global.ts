@@ -6,7 +6,7 @@ import { useSocket } from '~/composables/useSocket'
 //
 // Coordinates all the services that need to happen when logged in, such as the socket... more to come
 export default defineNuxtRouteMiddleware(async (to) => {
-  const { user, fetchUser } = useSession()
+  const { user, userToken, fetchUser } = useSession()
   const { connectSocket } = useSocket()
 
   // const { error } = useAppStatus()
@@ -37,7 +37,7 @@ export default defineNuxtRouteMiddleware(async (to) => {
   }
 
   // we're logged in and we're going to a protected route, so connect the socket etc
-  connectSocket()
+  connectSocket({ token: userToken.value })
 
   if (redirect) {
     return navigateTo(redirect)
