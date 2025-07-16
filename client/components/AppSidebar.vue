@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { LogOut, Home, Inbox, Search, Settings, ArrowUpDown, Squirrel } from "lucide-vue-next"
+import { LogOut, Home, Inbox, Search, Settings, ArrowUpDown, Squirrel, Users } from "lucide-vue-next"
 import { useSidebar } from "./ui/sidebar"
 import { useApi } from "~/composables/useApi"
 import { useSession } from '~/composables/useSession'
@@ -19,6 +19,11 @@ const items = [
     title: "Ping",
     url: "/ping",
     icon: ArrowUpDown,
+  },
+  {
+    title: "User Admin",
+    url: "/admin/users",
+    icon: Users,
   },
   {
     title: "Other",

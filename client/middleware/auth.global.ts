@@ -1,5 +1,6 @@
 import { useSession } from '~/composables/useSession'
 import { useSocket } from '~/composables/useSocket'
+import { useAshChannel } from '~/composables/ash/core/useAshChannel'
 // import { useAppStatus } from '~/composables/useAppStatus'
 
 // More than just an auth middleware
@@ -8,6 +9,7 @@ import { useSocket } from '~/composables/useSocket'
 export default defineNuxtRouteMiddleware(async (to) => {
   const { user, userToken, fetchUser } = useSession()
   const { connectSocket } = useSocket()
+  const { join: joinAshChannel } = useAshChannel()
 
   // const { error } = useAppStatus()
   // error.value = null
@@ -36,8 +38,9 @@ export default defineNuxtRouteMiddleware(async (to) => {
     return navigateTo(`/login?dest=${encodeURIComponent(to.fullPath)}`)
   }
 
-  // we're logged in and we're going to a protected route, so connect the socket etc
+  // we're logged in and we're going to a protected route, so connect the socket, join the ash channel etc
   connectSocket({ token: userToken.value })
+  joinAshChannel()
 
   if (redirect) {
     return navigateTo(redirect)

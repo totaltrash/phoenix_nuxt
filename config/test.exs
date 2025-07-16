@@ -42,7 +42,7 @@ config :bcrypt_elixir, :log_rounds, 4
 # Wallaby
 config :wallaby,
   driver: Wallaby.Chrome,
-  chromedriver: [headless: true],
+  chromedriver: [headless: System.get_env("HEADLESS", "true") != "false"],
   js_logger: nil
 
 config :app, :sandbox, Ecto.Adapters.SQL.Sandbox

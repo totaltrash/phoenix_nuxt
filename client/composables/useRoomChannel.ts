@@ -24,7 +24,7 @@ export const useRoomChannel = () => {
 
   const ping = (msg: string) => {
     if (!channel) {
-      throw new Error('Channel not joined yet')
+      throw new Error('Room channel not joined yet')
     }
 
     // const chan = channel

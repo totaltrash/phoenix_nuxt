@@ -11,6 +11,7 @@ defmodule Web.UserSocket do
   # pointing to the `Web.RoomChannel`:
   #
   channel "room:*", Web.RoomChannel
+  channel "ash", Web.AshChannel
   #
   # To create a channel file, use the mix task:
   #
