@@ -1,5 +1,8 @@
 defmodule App.Accounts.User do
-  use Ash.Resource, data_layer: AshPostgres.DataLayer, domain: App.Accounts
+  use Ash.Resource,
+    data_layer: AshPostgres.DataLayer,
+    domain: App.Accounts,
+    extensions: [AshJason.Resource]
 
   @moduledoc """
   User resource.
@@ -18,9 +21,10 @@ defmodule App.Accounts.User do
     repo App.Repo
   end
 
-  identities do
-    identity :unique_username, [:username], message: "Username already exists"
-    identity :unique_email, [:email], message: "Email already exists"
+  jason do
+    pick([:id, :first_name, :surname, :email, :username])
+    rename(first_name: "firstName")
+    # rename fn name -> String.capitalize(to_string(name)) end
   end
 
   actions do
@@ -93,12 +97,10 @@ defmodule App.Accounts.User do
       prepare Preparations.DetermineDaysForToken
       prepare build(load: [:full_name])
 
-      filter(
-        expr do
-          token.token == ^arg(:token) and token.context == ^arg(:context) and
-            token.created_at > ago(^context(:days_for_token), :day)
-        end
-      )
+      filter (expr do
+                token.token == ^arg(:token) and token.context == ^arg(:context) and
+                  token.created_at > ago(^context(:days_for_token), :day)
+              end)
     end
 
     create :create do
@@ -163,10 +165,8 @@ defmodule App.Accounts.User do
       argument :password, :string do
         allow_nil? false
 
-        constraints(
-          max_length: 80,
-          min_length: 8
-        )
+        constraints max_length: 80,
+                    min_length: 8
       end
 
       argument :password_confirmation, :string, allow_nil?: false
@@ -177,6 +177,11 @@ defmodule App.Accounts.User do
       change Changes.HashPassword
       # change Changes.RemoveAllTokens
     end
+  end
+
+  validations do
+    validate match(:email, ~r/^[^\s]+@[^\s]+$/),
+      message: "Must be in the format of an email address"
   end
 
   attributes do
@@ -216,7 +221,7 @@ defmodule App.Accounts.User do
 
   relationships do
     has_many :token, App.Accounts.UserToken do
-      destination_attribute(:user_id)
+      destination_attribute :user_id
     end
   end
 
@@ -228,8 +233,8 @@ defmodule App.Accounts.User do
     count :session_token_count, :token, filter: [context: "session"]
   end
 
-  validations do
-    validate match(:email, ~r/^[^\s]+@[^\s]+$/),
-      message: "Must be in the format of an email address"
+  identities do
+    identity :unique_username, [:username], message: "Username already exists"
+    identity :unique_email, [:email], message: "Email already exists"
   end
 end

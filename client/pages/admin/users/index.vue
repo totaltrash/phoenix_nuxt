@@ -16,6 +16,6 @@ definePageMeta({
   layout: 'app'
 })
 
-const { readAll } = useAccountsDomain()
-const users: User[] = await readAll()
+const { readAllUsers } = useAccountsDomain()
+const users: User[] = await readAllUsers()
 </script>

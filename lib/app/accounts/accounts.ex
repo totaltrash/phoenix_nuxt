@@ -30,4 +30,10 @@ defmodule App.Accounts do
       define :update_session, action: :update, args: [:value]
     end
   end
+
+  # def js_action(action_name, params \\ %{})
+
+  def js_action("read_all_users", _params) do
+    __MODULE__.read_all_users()
+  end
 end

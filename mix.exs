@@ -33,6 +33,7 @@ defmodule App.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
+      {:ash_jason, "~> 2.0.0"},
       {:cors_plug, "~> 3.0"},
       {:bcrypt_elixir, "~> 3.0"},
       {:ash_postgres, "~> 2.0"},
