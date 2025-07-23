@@ -3,7 +3,7 @@
   {{ users }}
   <ul>
     <li v-for="user in users" :key="user.id">
-      {{ user.id }}, {{ user.username }}, {{ user.firstName }} {{ user.surname }}
+      {{ user.id }}, {{ user.username }}, {{ user.first_name }} {{ user.surname }}
     </li>
   </ul>
 </template>
@@ -17,5 +17,5 @@ definePageMeta({
 })
 
 const { readAllUsers } = useAccountsDomain()
-const users: User[] = await readAllUsers()
+const users: Pick<User, 'id' | 'first_name' | 'surname' | 'username'>[] = await readAllUsers(['id', 'first_name', 'surname', 'username'])
 </script>

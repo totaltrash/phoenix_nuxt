@@ -1,8 +1,7 @@
 defmodule App.Accounts.User do
   use Ash.Resource,
     data_layer: AshPostgres.DataLayer,
-    domain: App.Accounts,
-    extensions: [AshJason.Resource]
+    domain: App.Accounts
 
   @moduledoc """
   User resource.
@@ -19,12 +18,6 @@ defmodule App.Accounts.User do
   postgres do
     table "user_account"
     repo App.Repo
-  end
-
-  jason do
-    pick([:id, :first_name, :surname, :email, :username])
-    rename(first_name: "firstName")
-    # rename fn name -> String.capitalize(to_string(name)) end
   end
 
   actions do

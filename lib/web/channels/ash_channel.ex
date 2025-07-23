@@ -1,6 +1,8 @@
 defmodule Web.AshChannel do
   use Web, :channel
 
+  import Web.Encoder
+
   @impl true
   def join("ash", payload, socket) do
     if authorized?(payload) do
@@ -15,26 +17,22 @@ defmodule Web.AshChannel do
   @impl true
   def handle_in(
         "action",
-        %{"domain" => domain, "actionName" => action_name, "params" => params} = _payload,
+        %{
+          "domain" => domain,
+          "actionName" => action_name,
+          "params" => params,
+          "fields" => fields
+        },
         socket
       ) do
-    # IO.inspect(payload)
-
-    # return = %{
-    #   data: [
-    #     %{id: "something", username: "auser", firstName: "Anne", surname: "User"}
-    #   ]
-    # }
-
-    data = run_action(domain, action_name, params)
+    data =
+      domain
+      |> run_action(action_name, params)
+      |> encode(fields: fields)
 
     # IO.inspect(Jason.encode!(data))
 
-    return = %{
-      data: data
-    }
-
-    {:reply, {:ok, return}, socket}
+    {:reply, {:ok, %{data: data}}, socket}
   end
 
   def run_action("accounts", "read_all_users", _params) do

@@ -2,7 +2,7 @@ export type User = {
   id: string
   username: string
   email: string
-  firstName: string
+  first_name: string
   surname: string
   // add more fields as needed
 }

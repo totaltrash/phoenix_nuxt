@@ -30,7 +30,7 @@ export const useAshChannel = () => {
       })
   }
 
-  const action = (domain: string, actionName: string, params: any) => {
+  const action = (domain: string, actionName: string, params: any, fields: any) => {
     console.log('Ash channel action called')
     if (!channel.value) {
       throw new Error('Ash channel not joined yet')
@@ -38,7 +38,7 @@ export const useAshChannel = () => {
 
     return new Promise((resolve, reject) => {
       channel.value!
-        .push('action', { domain, actionName, params })
+        .push('action', { domain, actionName, params, fields })
         .receive('ok', resolve)
         .receive('error', reject)
         .receive('timeout', () => reject(new Error('timeout')))
