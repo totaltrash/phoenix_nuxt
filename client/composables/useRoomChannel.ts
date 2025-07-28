@@ -1,26 +1,11 @@
 import { Channel } from 'phoenix'
-import { useSocket } from '~/composables/useSocket'
+import { useSocket } from '~/composables/ash/core/useSocket'
 
 export const useRoomChannel = () => {
   const isJoined = ref(false)
   const messages = ref<string[]>([])
   const error = ref<string | null>(null)
   let channel: Channel | null = null
-
-  // const join = () => {
-  //   channel!
-  //     .join()
-  //     .receive('ok', () => {
-  //       isJoined.value = true
-  //     })
-  //     .receive('error', (err) => {
-  //       error.value = JSON.stringify(err)
-  //     })
-
-  //   channel!.on('poke', (payload) => {
-  //     messages.value.push(payload.msg)
-  //   })
-  // }
 
   const ping = (msg: string) => {
     if (!channel) {
@@ -38,7 +23,7 @@ export const useRoomChannel = () => {
   }
 
   onBeforeMount(() => {
-    const { getSocket } = useSocket()
+    const { get: getSocket } = useSocket()
     let socket = getSocket()
     if (!socket) {
       throw new Error('socket is undefined — is the plugin running in the client?')
@@ -64,7 +49,6 @@ export const useRoomChannel = () => {
   })
 
   return {
-    // join,
     ping,
     isJoined,
     messages,

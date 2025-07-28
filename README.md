@@ -1,7 +1,44 @@
 Playing with Phoenix and Nuxt
 =============================
 
-Yeah, I'm doing it again!
+A personal learning thing.
+
+Goals
+-----
+
+The main goal is to connect a javascript front end with the phoenix back end via a Phoenix channel so you can interact with the Ash domain using javascript. Something like this should be doable from the front end:
+
+```js
+import { useAccountsDomain } from '~/composables/ash/generated/useAccountsDomain'
+import type { User } from '~/types/ash/generated/user'
+
+const { readAllUsers } = useAccountsDomain()
+const users: Pick<User, 'id' | 'first_name' | 'surname' | 'username'>[] = await readAllUsers(['id', 'first_name', 'surname', 'username'])
+```
+
+I will support all of this with an Ash extension that describes a js interface (similar to a code interface) and generates the front end code:
+
+```elixir
+# in the domain, something like
+js_interface do
+  resource User do
+    define :read_all_users, action: :read_all
+  end
+end
+```
+
+Running ash codegen will then generate the typescript types for the resources in the domain, as well as the js functions for interacting with the back end.
+
+Also I'll use an ash channel for all the chat between the front end and the back end so it will have a stateful connection such that the current user and other context can be stored on the back end.
+
+Side quests include:
+
+* Using Docker to build production elixir releases (for hosting in non Docker environments)
+* Playing with the current state of play in Nuxt/Vue
+* Playing with Phoenix channels
+* Playing with Shadcn-vue for front end framework
+* Watchers for building the front end in dev, and generating the nuxt application for the test environment
+
 
 Links while dev
 ---------------
@@ -156,7 +193,23 @@ Jobs:
 Refactor javascript out of composables
 --------------------------------------
 
-Make composables just a wrapper
+Make composables just a wrapper around vanilla js. Started this with socketClient.ts, but will need some generation of composables as how else will you wrap the functions in useAccountsDomain, for example. There's a tension between keeping the call site looking nice and minimal, or having ash domain functions in vanilla js. ie:
+
+```js
+import { useAccountsDomain } from '~/composables/ash/generated/useAccountsDomain'
+const { readAllUsers } = useAccountsDomain()
+const users = await readAllUsers(['id', 'first_name', 'surname', 'username'])
+```
+
+versus
+
+```js
+import { readAllUsers } = from 'lib/ash/generated/accountsDomain'
+const { ashChannel } = useAshChannel()
+const users = await readAllUsers(ashChannel, ['id', 'first_name', 'surname', 'username'])
+```
+
+Currently gone with the former, but the latter would be better for code generation?
 
 
 AshJs extension
@@ -167,17 +220,18 @@ Domains should expose resource actions in a similar way to a code interface.
 Jobs:
 
 * [ ] Autogenerate types
-* [ ] Autogenerate domain composables
-* [ ] Clean up useAsh if not required. I think we will need it as useAshChannel should only be concerned with low level channel stuff
-* [ ] 
-* [ ] 
+* [ ] Autogenerate domain functions
+* [ ] Autogenerate domain vue composables? or go with alternative as described above in Refactor javascript out of composables
 
-Todo
-----
 
-Move the channel stuff once you have a better idea of how this needs to be layed out - should join happen in the middleware?
+To do
+-----
 
-Fix the broken autoimports
+Gonna leave it here for now. If you get back in to it, you probably want to get into the AshJs extension and auto generating stuff. I've begun to move some front end code out of nuxt/vue composables, but you might need to do some more work if you want to make it easier to use in other front end frameworks.
+
+Other big picture things include handling forms nicely, including validations, and dynamic nested forms with a dx similar to using AshPhoenix.Form.
+
+Fix the broken nuxt autoimports
 
 Flesh out error reporting to user. we have useAppStatus and ErrorBanner, but we're not currently setting that anywhere, need to modify auth middleware to use this and get error messages from useApi, useSocket etc and populate useAppStatus.error. Or something like that...
 
@@ -193,24 +247,3 @@ Dry up some of the values for nuxt client in tests - currently hardcoding:
 
 See if there is a way to conditionally generate the nuxt client during tests - is there a way to see if a build is stale? See https://stackoverflow.com/questions/545387/linux-compute-a-single-hash-for-a-given-folder-contents
 
-Play with calling Ash actions from the client through the socket
-
-
-# App
-
-To start your Phoenix server:
-
-  * Run `mix setup` to install and setup dependencies
-  * Start Phoenix endpoint with `mix phx.server` or inside IEx with `iex -S mix phx.server`
-
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
-
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
-
-## Learn more
-
-  * Official website: https://www.phoenixframework.org/
-  * Guides: https://hexdocs.pm/phoenix/overview.html
-  * Docs: https://hexdocs.pm/phoenix
-  * Forum: https://elixirforum.com/c/phoenix-forum
-  * Source: https://github.com/phoenixframework/phoenix

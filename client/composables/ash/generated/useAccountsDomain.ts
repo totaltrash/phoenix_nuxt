@@ -1,11 +1,13 @@
-import { useAshChannel } from '~/composables/ash/core/useAshChannel'
-export const useAccountsDomain = () => {
-  const { action } = useAshChannel()
+import { useAsh } from '~/composables/ash/core/useAsh'
+import type { User } from '~/types/user'
 
-  async function readAllUsers(fields: any) {
-    const result = await action("accounts", "read_all_users", {}, fields)
+export const useAccountsDomain = () => {
+  const { action } = useAsh()
+
+  async function readAllUsers(fields: any): Promise<User[]> {
+    const result = await action<User[]>("accounts", "read_all_users", {}, fields)
     console.log(result)
-    return result.data
+    return result
   }
 
   return {

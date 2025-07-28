@@ -1,54 +1,38 @@
 import { Channel } from 'phoenix'
-import { useSocket } from '~/composables/useSocket'
+import { joinChannel, leaveChannel } from '~/lib/socket/socketClient'
+import { useSocket } from '~/composables/ash/core/useSocket'
 
 export const useAshChannel = () => {
-  const isJoined = ref(false)
-  const error = ref<string | null>(null)
-  const channel = useState<Channel | null>('channel', () => null)
+  const channel = useState<Channel | null>('ash_channel', () => null)
 
   const join = () => {
     if (channel.value) {
-      return channel.value
+      return
     }
 
-    const { getSocket } = useSocket()
+    const { get: getSocket } = useSocket()
     let socket = getSocket()
     if (!socket) {
       throw new Error('socket is undefined — is the plugin running in the client?')
     }
 
-    channel.value = socket.channel('ash')
-
-    channel.value!
-      .join()
-      .receive('ok', () => {
-        isJoined.value = true
-        console.log('Ash channel joined')
-      })
-      .receive('error', (err) => {
-        error.value = JSON.stringify(err)
-      })
+    channel.value = joinChannel(socket, 'ash')
   }
 
-  const action = (domain: string, actionName: string, params: any, fields: any) => {
-    console.log('Ash channel action called')
-    if (!channel.value) {
-      throw new Error('Ash channel not joined yet')
+  const leave = () => {
+    if (channel.value) {
+      leaveChannel(channel.value)
+      channel.value = null
     }
+  }
 
-    return new Promise((resolve, reject) => {
-      channel.value!
-        .push('action', { domain, actionName, params, fields })
-        .receive('ok', resolve)
-        .receive('error', reject)
-        .receive('timeout', () => reject(new Error('timeout')))
-    })
+  const get = () => {
+    return channel.value
   }
 
   return {
-    action,
-    isJoined,
-    error,
     join,
+    leave,
+    get,
   }
 }

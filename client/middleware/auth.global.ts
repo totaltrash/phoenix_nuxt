@@ -1,14 +1,14 @@
 import { useSession } from '~/composables/useSession'
-import { useSocket } from '~/composables/useSocket'
+import { useSocket } from '~/composables/ash/core/useSocket'
 import { useAshChannel } from '~/composables/ash/core/useAshChannel'
 // import { useAppStatus } from '~/composables/useAppStatus'
 
 // More than just an auth middleware
 //
-// Coordinates all the services that need to happen when logged in, such as the socket... more to come
+// Coordinates all the services that need to happen when logged in, such as the socket, ash channel and retrieving the user
 export default defineNuxtRouteMiddleware(async (to) => {
   const { user, userToken, fetchUser } = useSession()
-  const { connectSocket } = useSocket()
+  const { connect: connectSocket } = useSocket()
   const { join: joinAshChannel } = useAshChannel()
 
   // const { error } = useAppStatus()
