@@ -40,6 +40,15 @@ Side quests include:
 * Watchers for building the front end in dev, and generating the nuxt application for the test environment
 
 
+Start dev environment
+---------------------
+
+```
+docker start postgres-17
+iex -S mix phx.server
+```
+
+
 Links while dev
 ---------------
 
