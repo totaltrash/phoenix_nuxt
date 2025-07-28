@@ -48,6 +48,8 @@ docker start postgres-17
 iex -S mix phx.server
 ```
 
+Front end available at http://localhost:3000/
+
 
 Links while dev
 ---------------
